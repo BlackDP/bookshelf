@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Книга: {{ book.title }}</title>
+    </head>
+    <body>
+        <h1>{{ book.title }}</h1>
+        <h2>{{ book.author_full_name }}</h2>
+        <h3>Год публикации: {{ book.year_of_publishing }}</h3>
+        <h3>Тираж: {{ book.copies_printed }} экземпляров</h3>
+        <h4>Описание:</h4>
+        <p>{{ book.short_description }}</p>
+    </body>
+</html>

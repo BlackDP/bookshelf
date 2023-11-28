@@ -1,4 +1,5 @@
-from django.http import HttpResponseNotFound, JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseNotFound, JsonResponse, HttpRequest
 from django.shortcuts import render
 from .models import Book
 # Create your views here.
@@ -12,25 +13,25 @@ def get_book(book_id: int):
     try:
         book = Book.objects.get(id=book_id)
         return book
-    except:
+    except ObjectDoesNotExist:
         return None
 
-def html_books_view(request):
+def html_books_view(request: HttpRequest):
     books = get_books()
     return render(request, 'books/books.html', context={'books':books})
 
-def html_book_view(request, book_id: int):
+def html_book_view(request: HttpRequest, book_id: int):
     book = get_book(book_id)
     if book is None:
         return HttpResponseNotFound()
     return render(request, 'books/book.html', context={'book':book})
 
-def api_books_view(request):
+def api_books_view(request: HttpRequest):
     books = get_books()
     books = list(books.values('title', 'author_full_name', 'year_of_publishing', 'copies_printed', 'short_description'))
     return JsonResponse(books, safe=False, json_dumps_params={'ensure_ascii': False})
 
-def get_api_book(request, book_id: int):
+def api_book_view(request: HttpRequest, book_id: int):
     book = get_book(book_id)
     if book is None:
         return HttpResponseNotFound()
